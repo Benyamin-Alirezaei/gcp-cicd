@@ -1,16 +1,14 @@
 steps:
   # 1. Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/gcp-cicd:$SHORT_SHA', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/${_CINAME}:$SHORT_SHA', '.']
 
   # 2. Push to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/gcp-cicd:$SHORT_SHA']
-  
-  # 3. Deploy to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/${_CINAME}:$SHORT_SHA']
 
-  
+substitutions:
+  _CINAME: gcp-cicd
 
 options:
   logging: CLOUD_LOGGING_ONLY
